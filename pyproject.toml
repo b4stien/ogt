@@ -1,0 +1,36 @@
+[project]
+name = "ogt"
+version = "0.0.1"
+description = "ogt: a collection of tools for working with openGrid"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["cadquery>=2.6.0", "pydantic>=2.0,<3", "click>=8.0"]
+
+[project.scripts]
+ogt = "ogt.cli:cli"
+
+[build-system]
+requires = ["uv_build>=0.10.0,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.15.0",
+    "trimesh[easy]>=4.0",
+    "ty>=0.0.15",
+]
+vscode-ocp-cad-viewer = [
+    "cadquery-ocp>=7.8",
+    "ocp-vscode>=3.0.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ty.src]
+exclude = ["retroengineer/"]
+
+[tool.ruff]
+line-length = 100
+exclude = ["retroengineer/"]
