@@ -4,6 +4,7 @@ Retroengineered from the original STEP file, see ./retroengineer.
 
 """
 
+import functools
 import math
 
 import cadquery as cq
@@ -60,6 +61,7 @@ def _make_corner_wall() -> cq.Workplane:
     return profile.translate((-extrude_len / 2, -half_size * _SQRT2, 0))
 
 
+@functools.lru_cache(maxsize=1)
 def make_opengrid_full_tile() -> cq.Workplane:
     """Build a complete 1x1 openGrid tile."""
     # Axis-aligned frame: 4 walls at 0°, 90°, 180°, 270°

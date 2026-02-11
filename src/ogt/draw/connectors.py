@@ -4,6 +4,7 @@ Retroengineered from the original STEP file, see ./retroengineer.
 
 """
 
+import functools
 import math
 
 import cadquery as cq
@@ -49,6 +50,7 @@ def _arc_mid(
     return (cx + r * math.cos(mid), cy + r * math.sin(mid))
 
 
+@functools.lru_cache(maxsize=1)
 def make_connector_cutout() -> cq.Workplane:
     """Build the connector cutout tool in canonical orientation.
 
