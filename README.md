@@ -40,7 +40,7 @@ uv run ruff format     # format
 uv run ty check        # type-check
 ```
 
-## Credits
+## Credits & inspirations
 
 - **David Danier** — openGrid creator
   — [GitHub](https://github.com/ddanier)
