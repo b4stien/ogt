@@ -2,7 +2,6 @@ import { useGridState } from "@/hooks/useGridState"
 import { GridSvg } from "@/components/GridSvg"
 import { GridFeaturesToolbar } from "@/components/GridToolbar"
 import { JsonExport } from "@/components/JsonExport"
-import { Button } from "@/components/ui/button"
 import type { ScrewSize } from "@/lib/types"
 
 function ScrewField({
