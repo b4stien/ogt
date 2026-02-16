@@ -1,6 +1,6 @@
 [project]
 name = "ogt"
-version = "0.0.1"
+version = "0.0.2"
 description = "ogt: a collection of tools for working with openGrid"
 readme = "README.md"
 license = { text = "PolyForm Noncommercial 1.0.0" }
@@ -24,16 +24,8 @@ requires = ["uv_build>=0.10.0,<0.11.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = [
-    "pytest>=8.0",
-    "ruff>=0.15.0",
-    "trimesh[easy]>=4.0",
-    "ty>=0.0.15",
-]
-vscode-ocp-cad-viewer = [
-    "cadquery-ocp>=7.8",
-    "ocp-vscode>=3.0.1",
-]
+dev = ["pytest>=8.0", "ruff>=0.15.0", "trimesh[easy]>=4.0", "ty>=0.0.15"]
+vscode-ocp-cad-viewer = ["cadquery-ocp>=7.8", "ocp-vscode>=3.0.1"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
