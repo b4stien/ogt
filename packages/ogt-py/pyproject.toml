@@ -2,9 +2,19 @@
 name = "ogt"
 version = "0.0.1"
 description = "ogt: a collection of tools for working with openGrid"
-
+readme = "README.md"
+license = { text = "PolyForm Noncommercial 1.0.0" }
 requires-python = ">=3.13"
 dependencies = ["cadquery>=2.6.0", "pydantic>=2.0,<3", "click>=8.0"]
+authors = [{ name = "Bastien GANDOUET", email = "bastien@mozaiqu.es" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/bastien/ogt"
+Repository = "https://github.com/bastien/ogt"
 
 [project.scripts]
 ogt = "ogt.cli:cli"
