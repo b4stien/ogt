@@ -11,7 +11,7 @@ from ogt import Tile, make_opengrid
 from ogt.constants import TILE_SIZE
 from ogt.draw.tile.full import TILE_THICKNESS
 
-REFERENCES_DIR = Path(__file__).resolve().parent.parent / "references"
+REFERENCES_DIR = Path(__file__).resolve().parent.parent.parent.parent / "references"
 
 
 @dataclass(frozen=True)

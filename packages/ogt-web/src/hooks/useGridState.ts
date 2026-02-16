@@ -6,7 +6,7 @@ import {
   computeCornerScrewPositions,
   type Eligibility,
 } from "@/lib/eligibility"
-import type { GridPlan, SummitFeatures } from "@/lib/types"
+import type { GridPlan, ScrewSize, SummitFeatures } from "@/lib/types"
 
 function cloneSummits(summits: SummitFeatures[][]): SummitFeatures[][] {
   return summits.map((row) => row.map((s) => ({ ...s })))
@@ -32,6 +32,8 @@ function pruneSummits(
 }
 
 export function useGridState(initialRows: number, initialCols: number) {
+  const [opengridType, setOpengridType] = useState<"full" | "light">("full")
+  const [screwSize, setScrewSize] = useState<ScrewSize>({ ...DEFAULT_SCREW_SIZE })
   const [tiles, setTiles] = useState<boolean[][]>(
     () => createEmptyGrid(initialRows, initialCols).tiles,
   )
@@ -179,8 +181,8 @@ export function useGridState(initialRows: number, initialCols: number) {
       const next = cloneSummits(prev)
       for (let i = 0; i <= rows; i++) {
         for (let j = 0; j <= cols; j++) {
-          if (corners[i]?.[j]) {
-            next[i][j].screw = true
+          if (eligibility.screws[i]?.[j]) {
+            next[i][j].screw = !!corners[i]?.[j]
           }
         }
       }
@@ -216,10 +218,10 @@ export function useGridState(initialRows: number, initialCols: number) {
     return {
       tiles,
       summits,
-      opengrid_type: "full",
-      screw_size: DEFAULT_SCREW_SIZE,
+      opengrid_type: opengridType,
+      screw_size: screwSize,
     }
-  }, [tiles, summits])
+  }, [tiles, summits, opengridType, screwSize])
 
   return {
     tiles,
@@ -227,6 +229,10 @@ export function useGridState(initialRows: number, initialCols: number) {
     rows,
     cols,
     eligibility,
+    opengridType,
+    setOpengridType,
+    screwSize,
+    setScrewSize,
     toggleTile,
     toggleConnector,
     toggleChamfer,

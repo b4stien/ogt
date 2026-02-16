@@ -2,7 +2,7 @@
 name = "ogt"
 version = "0.0.1"
 description = "ogt: a collection of tools for working with openGrid"
-readme = "README.md"
+
 requires-python = ">=3.13"
 dependencies = ["cadquery>=2.6.0", "pydantic>=2.0,<3", "click>=8.0"]
 
@@ -28,9 +28,5 @@ vscode-ocp-cad-viewer = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
-[tool.ty.src]
-exclude = ["retroengineer/"]
-
 [tool.ruff]
 line-length = 100
-exclude = ["retroengineer/"]

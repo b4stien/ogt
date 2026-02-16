@@ -7,8 +7,10 @@ from pathlib import Path
 import click
 
 
-def parse_layout(ctx, param, value):
+def parse_size(ctx, param, value):
     """Parse a ``ROWSxCOLS`` string into a list[list[Tile]]."""
+    if value is None:
+        return None
     try:
         parts = value.lower().split("x")
         if len(parts) != 2:
@@ -38,10 +40,47 @@ def export_geometry(workplane, path, fmt):
     cq.exporters.export(workplane, str(path), fmt.upper())
 
 
+def resolve_plan(code, layout, opengrid_type, connectors, tile_chamfers, screws):
+    """Return a GridPlan from either a compact *code* or a *layout* + options."""
+    if code:
+        conflicts = []
+        if layout:
+            conflicts.append("--size")
+        if opengrid_type != "full":
+            conflicts.append("--type")
+        if connectors:
+            conflicts.append("--connectors")
+        if tile_chamfers:
+            conflicts.append("--tile-chamfers")
+        if screws:
+            conflicts.append("--screws")
+        if conflicts:
+            flags = ", ".join(conflicts)
+            raise click.UsageError(
+                f"Cannot combine compact CODE with {flags}. "
+                "Features are already encoded in the compact code."
+            )
+        from ogt.compact import decode
+
+        return decode(code)
+    if layout:
+        from ogt.prepare import prepare_grid
+
+        return prepare_grid(layout, opengrid_type, connectors, tile_chamfers, screws)
+    raise click.UsageError("Provide a compact CODE or --size.")
+
+
 def prepare_options(fn):
     """Shared options for prepare and generate commands."""
 
-    @click.argument("layout", callback=parse_layout)
+    @click.argument("code", required=False, default=None)
+    @click.option(
+        "--size",
+        "layout",
+        callback=parse_size,
+        default=None,
+        help="Grid size as ROWSxCOLS (e.g. 2x4).",
+    )
     @click.option(
         "--type",
         "opengrid_type",
@@ -72,14 +111,12 @@ def cli():
 
 @cli.command()
 @prepare_options
-def prepare(layout, opengrid_type, connectors, tile_chamfers, screws, output):
-    """Prepare a grid plan (JSON) from a LAYOUT spec (e.g. 2x4)."""
-    from ogt.prepare import prepare_grid
+def prepare(code, layout, opengrid_type, connectors, tile_chamfers, screws, output):
+    """Prepare a grid plan (JSON) from a compact CODE or --size."""
+    plan = resolve_plan(code, layout, opengrid_type, connectors, tile_chamfers, screws)
 
-    plan = prepare_grid(layout, opengrid_type, connectors, tile_chamfers, screws)
-
+    rows, cols = len(plan.tiles), len(plan.tiles[0])
     if output is None:
-        rows, cols = len(layout), len(layout[0])
         output = auto_name(f"{rows}x{cols}", "json")
 
     Path(output).write_text(plan.model_dump_json(indent=2))
@@ -89,7 +126,7 @@ def prepare(layout, opengrid_type, connectors, tile_chamfers, screws, output):
 @cli.command()
 @click.argument("plan_file", type=click.Path(exists=True))
 @click.option(
-    "--format", "fmt", type=click.Choice(["stl", "step"]), default="stl", help="Output format."
+    "--format", "fmt", type=click.Choice(["stl", "step"]), default="step", help="Output format."
 )
 @click.option("-o", "--output", type=click.Path(), default=None, help="Output file path.")
 def draw(plan_file, fmt, output):
@@ -117,18 +154,17 @@ def draw(plan_file, fmt, output):
 @cli.command()
 @prepare_options
 @click.option(
-    "--format", "fmt", type=click.Choice(["stl", "step"]), default="stl", help="Output format."
+    "--format", "fmt", type=click.Choice(["stl", "step"]), default="step", help="Output format."
 )
-def generate(layout, opengrid_type, connectors, tile_chamfers, screws, output, fmt):
-    """Prepare and draw in one step — from LAYOUT to exported geometry."""
+def generate(code, layout, opengrid_type, connectors, tile_chamfers, screws, output, fmt):
+    """Prepare and draw in one step — from compact CODE or --size to geometry."""
     from ogt.draw import draw_grid
-    from ogt.prepare import prepare_grid
 
-    plan = prepare_grid(layout, opengrid_type, connectors, tile_chamfers, screws)
+    plan = resolve_plan(code, layout, opengrid_type, connectors, tile_chamfers, screws)
     result = draw_grid(plan)
 
+    rows, cols = len(plan.tiles), len(plan.tiles[0])
     if output is None:
-        rows, cols = len(layout), len(layout[0])
         output = auto_name(f"{rows}x{cols}", fmt)
 
     export_geometry(result, output, fmt)
