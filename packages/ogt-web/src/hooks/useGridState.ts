@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { createEmptyGrid, DEFAULT_SCREW_SIZE, emptySummit } from "@/lib/defaults"
 import {
   computeAllEligibility,
@@ -43,19 +43,6 @@ export function useGridState(initialRows: number, initialCols: number) {
   const cols = tiles[0]?.length ?? 0
 
   const eligibility = useMemo(() => computeAllEligibility(tiles), [tiles])
-
-  useEffect(() => {
-    console.log(`[GridState] Grid size: ${rows}x${cols}`, {
-      rows,
-      cols,
-      eligibility: {
-        connectors: eligibility.connectors,
-        chamfers: eligibility.chamfers,
-        screws: eligibility.screws,
-      },
-      tiles,
-    })
-  }, [rows, cols, eligibility, tiles])
 
   const toggleTile = useCallback(
     (r: number, c: number) => {

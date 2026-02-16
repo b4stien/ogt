@@ -13,9 +13,10 @@ import {
   gridWidth,
   gridHeight,
 } from "@/lib/svg-constants";
-import { computeConnectorDirection } from "@/lib/eligibility";
+import { computeConnectorDirection, isTile } from "@/lib/eligibility";
 import type { Eligibility } from "@/lib/eligibility";
 import type { SummitFeatures } from "@/lib/types";
+import { TILE_SIZE_CM } from "@/lib/defaults";
 
 const BUTTON_TEXT_SIZE = 12;
 const DIM_OFFSET = 40; // space reserved for dimension indicators
@@ -24,13 +25,6 @@ const DIM_TEXT_SIZE = 11;
 const DIM_COLOR = "#a3a3a3";
 
 // --- Helpers ---
-
-function isTile(tiles: boolean[][], r: number, c: number): boolean {
-  const rows = tiles.length;
-  const cols = tiles[0]?.length ?? 0;
-  if (r >= 0 && r < rows && c >= 0 && c < cols) return tiles[r][c];
-  return false;
-}
 
 type FeatureType = "chamfer" | "screw" | "connector" | null;
 
@@ -672,7 +666,7 @@ export function GridSvg({
         const y = -DIM_OFFSET / 2;
         const x1 = GAP / 2;
         const x2 = gw - GAP / 2;
-        const label = `${cols} column${cols > 1 ? "s" : ""} · ${(cols * 2.8).toFixed(1)} cm`;
+        const label = `${cols} column${cols > 1 ? "s" : ""} · ${(cols * TILE_SIZE_CM).toFixed(1)} cm`;
         return (
           <g>
             <line x1={x1} y1={y} x2={x2} y2={y} stroke={DIM_COLOR} strokeWidth={0.5} />
@@ -696,7 +690,7 @@ export function GridSvg({
         const x = -DIM_OFFSET / 2;
         const y1 = GAP / 2;
         const y2 = gh - GAP / 2;
-        const label = `${rows} row${rows > 1 ? "s" : ""} · ${(rows * 2.8).toFixed(1)} cm`;
+        const label = `${rows} row${rows > 1 ? "s" : ""} · ${(rows * TILE_SIZE_CM).toFixed(1)} cm`;
         const cx = x;
         const cy = (y1 + y2) / 2;
         return (

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { TILE_SIZE_CM } from "@/lib/defaults"
 import type { GridPlan } from "@/lib/types"
 
 interface JsonExportProps {
@@ -35,7 +36,7 @@ export function JsonExport({ rows, cols, toGridPlan }: JsonExportProps) {
         </Button>
       </div>
       <span className="text-sm text-muted-foreground">
-        {rows} row{rows > 1 ? "s" : ""} x {cols} column{cols > 1 ? "s" : ""} · {(rows * 2.8).toFixed(1)} cm x {(cols * 2.8).toFixed(1)} cm
+        {rows} row{rows > 1 ? "s" : ""} x {cols} column{cols > 1 ? "s" : ""} · {(rows * TILE_SIZE_CM).toFixed(1)} cm x {(cols * TILE_SIZE_CM).toFixed(1)} cm
       </span>
     </div>
   )
