@@ -133,8 +133,11 @@ def draw(plan_file, fmt, output):
     """Draw geometry from a PLAN_FILE (JSON) and export."""
     from pydantic import ValidationError
 
+    click.echo("Loading CAD engine (may take up to 1 min on first run)…", nl=False)
     from ogt.draw import draw_grid
     from ogt.prepare.types import GridPlan
+
+    click.echo(" done.")
 
     try:
         data = json.loads(Path(plan_file).read_text())
@@ -158,8 +161,10 @@ def draw(plan_file, fmt, output):
 )
 def generate(code, layout, opengrid_type, connectors, tile_chamfers, screws, output, fmt):
     """Prepare and draw in one step — from compact CODE or --size to geometry."""
+    click.echo("Loading CAD engine (may take up to 1 min on first run)…", nl=False)
     from ogt.draw import draw_grid
 
+    click.echo(" done.")
     plan = resolve_plan(code, layout, opengrid_type, connectors, tile_chamfers, screws)
     result = draw_grid(plan)
 
