@@ -132,6 +132,28 @@ export function GridEditor() {
             individually.
           </p>
         </div>
+        <footer className="mt-10 text-sm text-muted-foreground">
+          <a
+            href="https://github.com/b4stien/ogt"
+            className="hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ogt repository on GitHub
+          </a>
+          <span className="mx-2">&middot;</span>
+          <span>
+            &copy; {new Date().getFullYear()}{" "}
+            <a
+              href="https://github.com/b4stien"
+              className="hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Bastien GANDOUET
+            </a>
+          </span>
+        </footer>
       </div>
     </div>
   );
