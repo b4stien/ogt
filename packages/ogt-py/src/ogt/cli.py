@@ -2,6 +2,7 @@
 
 import functools
 import json
+import sys
 from pathlib import Path
 
 import click
@@ -134,6 +135,7 @@ def draw(plan_file, fmt, output):
     from pydantic import ValidationError
 
     click.echo("Loading CAD engine (may take up to 1 min on first run)…", nl=False)
+    sys.stdout.flush()
     from ogt.draw import draw_grid
     from ogt.prepare.types import GridPlan
 
@@ -162,6 +164,7 @@ def draw(plan_file, fmt, output):
 def generate(code, layout, opengrid_type, connectors, tile_chamfers, screws, output, fmt):
     """Prepare and draw in one step — from compact CODE or --size to geometry."""
     click.echo("Loading CAD engine (may take up to 1 min on first run)…", nl=False)
+    sys.stdout.flush()
     from ogt.draw import draw_grid
 
     click.echo(" done.")
