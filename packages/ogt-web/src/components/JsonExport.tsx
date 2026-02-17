@@ -70,7 +70,12 @@ interface JsonExportProps {
   toGridPlan: () => GridPlan;
 }
 
-export function JsonExport({ rows, cols, opengridType, toGridPlan }: JsonExportProps) {
+export function JsonExport({
+  rows,
+  cols,
+  opengridType,
+  toGridPlan,
+}: JsonExportProps) {
   const workerState = useWorkerStatus();
   const plan = useMemo(() => toGridPlan(), [toGridPlan]);
   const compactCode = useMemo(() => encode(plan), [plan]);
@@ -87,7 +92,8 @@ export function JsonExport({ rows, cols, opengridType, toGridPlan }: JsonExportP
       <span className="text-sm text-muted-foreground">
         {rows} row{rows > 1 ? "s" : ""} x {cols} column{cols > 1 ? "s" : ""} ·{" "}
         {(rows * TILE_SIZE_CM).toFixed(1)} cm x{" "}
-        {(cols * TILE_SIZE_CM).toFixed(1)} cm x {opengridType === "light" ? LITE_TILE_THICKNESS : TILE_THICKNESS} mm
+        {(cols * TILE_SIZE_CM).toFixed(1)} cm x{" "}
+        {opengridType === "light" ? LITE_TILE_THICKNESS : TILE_THICKNESS} mm
       </span>
       <div className="flex gap-2 items-center">
         <CadExportButton
