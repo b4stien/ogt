@@ -100,6 +100,11 @@ export function JsonExport({ rows, cols, toGridPlan }: JsonExportProps) {
           filename={`${filenameBase}.stl`}
           disabled={workerState.status !== "ready"}
         />
+        {workerState.status === "loading" && (
+          <span className="text-sm text-muted-foreground">
+            Loading CAD engine…
+          </span>
+        )}
         {workerState.status === "error" && (
           <span className="text-sm text-red-600">{workerState.error}</span>
         )}
