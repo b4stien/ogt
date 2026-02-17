@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  python:
+  python-lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,6 +26,19 @@ jobs:
       - run: uv run ruff check
       - run: uv run ruff format --check
       - run: uv run ty check
+
+  python-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/ogt-py
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: packages/ogt-py/uv.lock
+      - run: uv sync --dev
       - uses: actions/setup-node@v4
         with:
           node-version-file: packages/ogt-web/.node-version
