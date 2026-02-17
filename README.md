@@ -1,6 +1,8 @@
 # `ogt`: openGrid tools
 
-A CadQuery reimplementation of [openGrid](https://github.com/ddanier), a modular storage and organization grid system for 3D printing created by [David Danier](https://github.com/ddanier). `ogt` can be used as a CLI tool, as a Python library, or through its web interface to generate customizable grid models with support for holes, chamfers, screws, and connectors.
+A CAD reimplementation of [openGrid](https://github.com/ddanier), a modular grid system for 3D printing created by [David Danier](https://github.com/ddanier). `ogt` can be used as a CLI tool (powered by CadQuery), as a Python library, or through its web interface (powered by replicad) to generate customizable grid models with support for holes, chamfers, screws, and connectors.
+
+**Try the web generator at [ogt.mozaiqu.es](https://ogt.mozaiqu.es/).**
 
 ## Features
 
