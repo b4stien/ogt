@@ -57,10 +57,10 @@ export function GridEditor() {
             <button
               type="button"
               onClick={() => state.setOpengridType("full")}
-              className={`px-3 flex items-center text-sm font-medium ${
+              className={`px-3 flex items-center text-sm font-medium cursor-pointer ${
                 state.opengridType === "full"
                   ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground"
+                  : "text-foreground hover:bg-muted"
               }`}
             >
               Full
@@ -68,10 +68,10 @@ export function GridEditor() {
             <button
               type="button"
               onClick={() => state.setOpengridType("light")}
-              className={`px-3 flex items-center text-sm font-medium border-l ${
+              className={`px-3 flex items-center text-sm font-medium border-l cursor-pointer ${
                 state.opengridType === "light"
                   ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground"
+                  : "text-foreground hover:bg-muted"
               }`}
             >
               Light
@@ -113,6 +113,7 @@ export function GridEditor() {
           <JsonExport
             rows={state.rows}
             cols={state.cols}
+            opengridType={state.opengridType}
             toGridPlan={state.toGridPlan}
           />
         </div>
