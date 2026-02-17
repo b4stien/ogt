@@ -4,6 +4,7 @@ import { CONNECTOR_CUTOUT_HEIGHT, makeConnectorCutout } from "./connectors";
 import { makeScrewCutout } from "./screws";
 import { makeTileChamferCutout } from "./chamfers";
 import { makeOpengridFullTile } from "./tile-full";
+import { LITE_TILE_THICKNESS, makeOpengridLightTile } from "./tile-light";
 import type { GridPlan } from "../types";
 
 export function drawGrid(plan: GridPlan): Solid {
@@ -18,11 +19,12 @@ export function drawGrid(plan: GridPlan): Solid {
       const x = colIdx * TILE_SIZE + TILE_SIZE / 2;
       const y = -(rowIdx * TILE_SIZE + TILE_SIZE / 2);
 
-      if (plan.opengrid_type === "light") {
-        throw new Error("light tiles are not yet implemented");
-      }
+      const baseTile =
+        plan.opengrid_type === "light"
+          ? makeOpengridLightTile()
+          : makeOpengridFullTile();
 
-      const tile = makeOpengridFullTile().clone().translate(x, y, 0) as Solid;
+      const tile = baseTile.clone().translate(x, y, 0) as Solid;
 
       if (result === null) {
         result = tile;
@@ -52,7 +54,11 @@ export function drawGrid(plan: GridPlan): Solid {
       if (summit.connector_angle !== null) {
         if (connectorTemplate === null) {
           connectorTemplate = makeConnectorCutout();
-          connectorZ = TILE_THICKNESS / 2 - CONNECTOR_CUTOUT_HEIGHT / 2;
+          const thickness =
+            plan.opengrid_type === "light"
+              ? LITE_TILE_THICKNESS
+              : TILE_THICKNESS;
+          connectorZ = thickness / 2 - CONNECTOR_CUTOUT_HEIGHT / 2;
         }
         const cutout = connectorTemplate
           .clone()

@@ -54,12 +54,28 @@ export function GridEditor() {
         />
         <div className="flex flex-col gap-2 max-w-3xl">
           <div className="inline-flex w-fit h-8 rounded-md border shadow-xs overflow-hidden select-none">
-            <span className="px-3 flex items-center text-sm font-medium bg-primary text-primary-foreground">
+            <button
+              type="button"
+              onClick={() => state.setOpengridType("full")}
+              className={`px-3 flex items-center text-sm font-medium ${
+                state.opengridType === "full"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground"
+              }`}
+            >
               Full
-            </span>
-            <span className="px-3 flex items-center text-sm font-medium border-l text-muted-foreground cursor-not-allowed">
+            </button>
+            <button
+              type="button"
+              onClick={() => state.setOpengridType("light")}
+              className={`px-3 flex items-center text-sm font-medium border-l ${
+                state.opengridType === "light"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground"
+              }`}
+            >
               Light
-            </span>
+            </button>
           </div>
           <GridFeaturesToolbar
             onEnableAllConnectors={state.enableAllConnectors}
@@ -105,10 +121,6 @@ export function GridEditor() {
             <strong>Beta:</strong> This generator is still in beta. Please
             verify its output, inspect the generated STEP/STL file, and do a
             small test print before committing to larger projects.
-          </p>
-          <p>
-            <strong>Light mode:</strong> The "Light" grid type is not available
-            yet.
           </p>
           <p>
             <strong>Grid preview:</strong> Green areas represent material that

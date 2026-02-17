@@ -7,6 +7,7 @@ from ogt.draw.connectors import CONNECTOR_CUTOUT_HEIGHT, make_connector_cutout
 from ogt.draw.screws import make_screw_cutout
 from ogt.draw.tile.chamfers import TILE_CHAMFER_CUTOUT
 from ogt.draw.tile.full import TILE_THICKNESS, make_opengrid_full_tile
+from ogt.draw.tile.light import LITE_TILE_THICKNESS, make_opengrid_light_tile
 from ogt.prepare.types import GridPlan
 
 
@@ -37,7 +38,7 @@ def draw_grid(plan: GridPlan) -> cq.Workplane:
             if plan.opengrid_type == "full":
                 tile = make_opengrid_full_tile()
             elif plan.opengrid_type == "light":
-                raise NotImplementedError("light tiles are not yet implemented")
+                tile = make_opengrid_light_tile()
 
             tile = tile.translate((x, y, 0))
 
@@ -64,7 +65,10 @@ def draw_grid(plan: GridPlan) -> cq.Workplane:
             if summit.connector_angle is not None:
                 if connector_template is None:
                     connector_template = make_connector_cutout()
-                    connector_z = TILE_THICKNESS / 2 - CONNECTOR_CUTOUT_HEIGHT / 2
+                    thickness = (
+                        LITE_TILE_THICKNESS if plan.opengrid_type == "light" else TILE_THICKNESS
+                    )
+                    connector_z = thickness / 2 - CONNECTOR_CUTOUT_HEIGHT / 2
                 cutout = connector_template.rotate(
                     (0, 0, 0), (0, 0, 1), summit.connector_angle
                 ).translate((sx, sy, connector_z))
