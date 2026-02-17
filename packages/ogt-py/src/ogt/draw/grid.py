@@ -7,7 +7,7 @@ from ogt.draw.connectors import CONNECTOR_CUTOUT_HEIGHT, make_connector_cutout
 from ogt.draw.screws import make_screw_cutout
 from ogt.draw.tile.chamfers import TILE_CHAMFER_CUTOUT
 from ogt.draw.tile.full import TILE_THICKNESS, make_opengrid_full_tile
-from ogt.draw.tile.light import LITE_TILE_THICKNESS, make_opengrid_light_tile
+from ogt.draw.tile.lite import LITE_TILE_THICKNESS, make_opengrid_lite_tile
 from ogt.prepare.types import GridPlan
 
 
@@ -38,7 +38,7 @@ def draw_grid(plan: GridPlan) -> cq.Workplane:
             if plan.opengrid_type == "full":
                 tile = make_opengrid_full_tile()
             elif plan.opengrid_type == "lite":
-                tile = make_opengrid_light_tile()
+                tile = make_opengrid_lite_tile()
 
             tile = tile.translate((x, y, 0))
 

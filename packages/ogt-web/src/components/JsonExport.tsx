@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CadExportButton } from "@/components/StepExportButton";
 import { encode } from "@/lib/compact";
 import { TILE_THICKNESS } from "@/lib/cad/constants";
-import { LITE_TILE_THICKNESS } from "@/lib/cad/tile-light";
+import { LITE_TILE_THICKNESS } from "@/lib/cad/tile-lite";
 import { TILE_SIZE_CM } from "@/lib/defaults";
 import type { GridPlan } from "@/lib/types";
 import { useWorkerStatus } from "@/hooks/useWorkerStatus";

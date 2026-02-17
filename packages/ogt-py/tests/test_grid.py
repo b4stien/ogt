@@ -6,7 +6,7 @@ import trimesh
 from ogt import Tile, make_opengrid
 from ogt.constants import TILE_SIZE
 from ogt.draw.tile.full import TILE_THICKNESS
-from ogt.draw.tile.light import LITE_TILE_THICKNESS
+from ogt.draw.tile.lite import LITE_TILE_THICKNESS
 
 from grid_fixtures import GRID_CONFIGS, GridConfig, load_reference_mesh
 
@@ -100,16 +100,16 @@ def test_bounding_box_dimensions(config):
         assert actual == pytest.approx(exp, abs=0.005)
 
 
-# ── Light tile tests ──
+# ── Lite tile tests ──
 
 
-def test_light_tile_not_empty():
+def test_lite_tile_not_empty():
     layout = [[Tile()] * 2 for _ in range(2)]
     grid = make_opengrid(layout, opengrid_type="lite")
     assert grid.val().Volume() > 0
 
 
-def test_light_tile_bounding_box():
+def test_lite_tile_bounding_box():
     layout = [[Tile()] * 2 for _ in range(2)]
     grid = make_opengrid(layout, opengrid_type="lite")
     bb = grid.val().BoundingBox()
@@ -119,8 +119,8 @@ def test_light_tile_bounding_box():
         assert actual == pytest.approx(exp, abs=0.005)
 
 
-def test_light_tile_thinner_than_full():
+def test_lite_tile_thinner_than_full():
     layout = [[Tile()]]
     full = make_opengrid(layout, opengrid_type="full")
-    light = make_opengrid(layout, opengrid_type="lite")
-    assert light.val().Volume() < full.val().Volume()
+    lite = make_opengrid(layout, opengrid_type="lite")
+    assert lite.val().Volume() < full.val().Volume()

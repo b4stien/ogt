@@ -4,7 +4,7 @@ import { CONNECTOR_CUTOUT_HEIGHT, makeConnectorCutout } from "./connectors";
 import { makeScrewCutout } from "./screws";
 import { makeTileChamferCutout } from "./chamfers";
 import { makeOpengridFullTile } from "./tile-full";
-import { LITE_TILE_THICKNESS, makeOpengridLightTile } from "./tile-light";
+import { LITE_TILE_THICKNESS, makeOpengridLiteTile } from "./tile-lite";
 import type { GridPlan } from "../types";
 
 export function drawGrid(plan: GridPlan): Solid {
@@ -21,7 +21,7 @@ export function drawGrid(plan: GridPlan): Solid {
 
       const baseTile =
         plan.opengrid_type === "lite"
-          ? makeOpengridLightTile()
+          ? makeOpengridLiteTile()
           : makeOpengridFullTile();
 
       const tile = baseTile.clone().translate(x, y, 0) as Solid;

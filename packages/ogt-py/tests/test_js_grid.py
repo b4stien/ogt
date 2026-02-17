@@ -20,7 +20,7 @@ from ogt import Tile, prepare_grid
 from ogt.compact import encode
 from ogt.constants import TILE_SIZE
 from ogt.draw.tile.full import TILE_THICKNESS
-from ogt.draw.tile.light import LITE_TILE_THICKNESS
+from ogt.draw.tile.lite import LITE_TILE_THICKNESS
 
 from grid_fixtures import GRID_CONFIGS, GridConfig, load_reference_mesh
 
