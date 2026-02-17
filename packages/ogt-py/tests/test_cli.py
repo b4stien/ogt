@@ -79,9 +79,7 @@ def test_compact_code_with_flags_errors():
 
 
 def test_compact_code_with_size_errors():
-    result = CliRunner().invoke(
-        cli, ["generate", "0.f.2.2.KlAK.8A._4A", "--size", "2x2"]
-    )
+    result = CliRunner().invoke(cli, ["generate", "0.f.2.2.KlAK.8A._4A", "--size", "2x2"])
     assert result.exit_code != 0
     assert "Cannot combine" in result.output
     assert "--size" in result.output
@@ -120,9 +118,7 @@ def test_draw_stl_format(tmp_path):
     assert prep.exit_code == 0, prep.output
 
     output = tmp_path / "grid.stl"
-    result = CliRunner().invoke(
-        cli, ["draw", str(plan_path), "--format", "stl", "-o", str(output)]
-    )
+    result = CliRunner().invoke(cli, ["draw", str(plan_path), "--format", "stl", "-o", str(output)])
     assert result.exit_code == 0, result.output
     assert output.exists()
 
@@ -188,7 +184,9 @@ def test_roundtrip(tmp_path):
     stl_via_draw = tmp_path / "via_draw.stl"
     stl_via_generate = tmp_path / "via_generate.stl"
 
-    prep = CliRunner().invoke(cli, ["prepare", "--size", "2x2", "--connectors", "-o", str(plan_path)])
+    prep = CliRunner().invoke(
+        cli, ["prepare", "--size", "2x2", "--connectors", "-o", str(plan_path)]
+    )
     assert prep.exit_code == 0, prep.output
     draw = CliRunner().invoke(
         cli, ["draw", str(plan_path), "--format", "stl", "-o", str(stl_via_draw)]
@@ -196,7 +194,16 @@ def test_roundtrip(tmp_path):
     assert draw.exit_code == 0, draw.output
     gen = CliRunner().invoke(
         cli,
-        ["generate", "--size", "2x2", "--connectors", "--format", "stl", "-o", str(stl_via_generate)],
+        [
+            "generate",
+            "--size",
+            "2x2",
+            "--connectors",
+            "--format",
+            "stl",
+            "-o",
+            str(stl_via_generate),
+        ],
     )
     assert gen.exit_code == 0, gen.output
 
