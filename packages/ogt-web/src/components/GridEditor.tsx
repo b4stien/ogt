@@ -1,8 +1,8 @@
-import { useGridState } from "@/hooks/useGridState"
-import { GridSvg } from "@/components/GridSvg"
-import { GridFeaturesToolbar } from "@/components/GridToolbar"
-import { JsonExport } from "@/components/JsonExport"
-import type { ScrewSize } from "@/lib/types"
+import { useGridState } from "@/hooks/useGridState";
+import { GridSvg } from "@/components/GridSvg";
+import { GridFeaturesToolbar } from "@/components/GridToolbar";
+import { JsonExport } from "@/components/JsonExport";
+import type { ScrewSize } from "@/lib/types";
 
 function ScrewField({
   label,
@@ -10,10 +10,10 @@ function ScrewField({
   screwSize,
   onChange,
 }: {
-  label: string
-  field: keyof ScrewSize
-  screwSize: ScrewSize
-  onChange: (s: ScrewSize) => void
+  label: string;
+  field: keyof ScrewSize;
+  screwSize: ScrewSize;
+  onChange: (s: ScrewSize) => void;
 }) {
   return (
     <div className="flex items-center rounded-md border bg-background shadow-xs">
@@ -24,15 +24,17 @@ function ScrewField({
         type="number"
         step="0.1"
         value={screwSize[field]}
-        onChange={(e) => onChange({ ...screwSize, [field]: parseFloat(e.target.value) || 0 })}
+        onChange={(e) =>
+          onChange({ ...screwSize, [field]: parseFloat(e.target.value) || 0 })
+        }
         className="w-16 h-8 px-2 text-sm bg-transparent outline-none"
       />
     </div>
-  )
+  );
 }
 
 export function GridEditor() {
-  const state = useGridState(2, 2)
+  const state = useGridState(2, 2);
 
   return (
     <div>
@@ -69,34 +71,55 @@ export function GridEditor() {
             onClearAllScrews={state.clearAllScrews}
           />
           <div className="flex gap-2">
-            <ScrewField label="Screw diameter (mm)" field="diameter" screwSize={state.screwSize} onChange={state.setScrewSize} />
-            <ScrewField label="Screw head diameter (mm)" field="head_diameter" screwSize={state.screwSize} onChange={state.setScrewSize} />
-            <ScrewField label="Screw head inset (mm)" field="head_inset" screwSize={state.screwSize} onChange={state.setScrewSize} />
+            <ScrewField
+              label="Screw diameter (mm)"
+              field="diameter"
+              screwSize={state.screwSize}
+              onChange={state.setScrewSize}
+            />
+            <ScrewField
+              label="Screw head diameter (mm)"
+              field="head_diameter"
+              screwSize={state.screwSize}
+              onChange={state.setScrewSize}
+            />
+            <ScrewField
+              label="Screw head inset (mm)"
+              field="head_inset"
+              screwSize={state.screwSize}
+              onChange={state.setScrewSize}
+            />
           </div>
         </div>
       </div>
       <div className="max-w-3xl">
         <div className="mt-10">
-          <JsonExport rows={state.rows} cols={state.cols} toGridPlan={state.toGridPlan} />
+          <JsonExport
+            rows={state.rows}
+            cols={state.cols}
+            toGridPlan={state.toGridPlan}
+          />
         </div>
         <div className="mt-10 rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700 flex flex-col gap-2">
           <p>
-            <strong>Beta:</strong> This generator is still in beta. Please verify its
-            output, inspect the generated STEP/STL file, and do a small test print
-            before committing to larger projects.
+            <strong>Beta:</strong> This generator is still in beta. Please
+            verify its output, inspect the generated STEP/STL file, and do a
+            small test print before committing to larger projects.
           </p>
           <p>
-            <strong>Light mode:</strong> The "Light" grid type is not available yet.
+            <strong>Light mode:</strong> The "Light" grid type is not available
+            yet.
           </p>
           <p>
-            <strong>Grid preview:</strong> Green areas represent material that will be
-            printed. When a feature (connector, chamfer, screw hole) is enabled, its
-            spot turns light grey to indicate material will be removed there.
-            Click on a tile to toggle it on or off, and click on a feature spot
-            (connector, chamfer, screw hole) to toggle it individually.
+            <strong>Grid preview:</strong> Green areas represent material that
+            will be printed. When a feature (connector, chamfer, screw hole) is
+            enabled, its spot turns light grey to indicate material will be
+            removed there. Click on a tile to toggle it on or off, and click on
+            a feature spot (connector, chamfer, screw hole) to toggle it
+            individually.
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

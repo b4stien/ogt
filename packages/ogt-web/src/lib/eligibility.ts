@@ -4,10 +4,10 @@
  */
 
 export function isTile(tiles: boolean[][], r: number, c: number): boolean {
-  const rows = tiles.length
-  const cols = tiles[0]?.length ?? 0
-  if (r >= 0 && r < rows && c >= 0 && c < cols) return tiles[r][c]
-  return false
+  const rows = tiles.length;
+  const cols = tiles[0]?.length ?? 0;
+  if (r >= 0 && r < rows && c >= 0 && c < cols) return tiles[r][c];
+  return false;
 }
 
 /**
@@ -17,24 +17,24 @@ export function isTile(tiles: boolean[][], r: number, c: number): boolean {
 export function computeEligibleConnectorPositions(
   tiles: boolean[][],
 ): boolean[][] {
-  const rows = tiles.length
-  const cols = tiles[0]?.length ?? 0
-  const result: boolean[][] = []
+  const rows = tiles.length;
+  const cols = tiles[0]?.length ?? 0;
+  const result: boolean[][] = [];
   for (let i = 0; i <= rows; i++) {
-    const row: boolean[] = []
+    const row: boolean[] = [];
     for (let j = 0; j <= cols; j++) {
-      const tl = isTile(tiles, i - 1, j - 1)
-      const tr = isTile(tiles, i - 1, j)
-      const bl = isTile(tiles, i, j - 1)
-      const br = isTile(tiles, i, j)
+      const tl = isTile(tiles, i - 1, j - 1);
+      const tr = isTile(tiles, i - 1, j);
+      const bl = isTile(tiles, i, j - 1);
+      const br = isTile(tiles, i, j);
       const eligible =
         (tl === tr && bl === br && tl !== bl) ||
-        (tl === bl && tr === br && tl !== tr)
-      row.push(eligible)
+        (tl === bl && tr === br && tl !== tr);
+      row.push(eligible);
     }
-    result.push(row)
+    result.push(row);
   }
-  return result
+  return result;
 }
 
 /**
@@ -45,20 +45,20 @@ export function computeConnectorDirection(
   i: number,
   j: number,
 ): number {
-  const tl = isTile(tiles, i - 1, j - 1)
-  const tr = isTile(tiles, i - 1, j)
-  const bl = isTile(tiles, i, j - 1)
-  const br = isTile(tiles, i, j)
+  const tl = isTile(tiles, i - 1, j - 1);
+  const tr = isTile(tiles, i - 1, j);
+  const bl = isTile(tiles, i, j - 1);
+  const br = isTile(tiles, i, j);
 
   // Horizontal edge
   if (tl === tr && bl === br && tl !== bl) {
-    return bl ? -90 : 90
+    return bl ? -90 : 90;
   }
   // Vertical edge
   if (tl === bl && tr === br && tl !== tr) {
-    return tr ? 0 : 180
+    return tr ? 0 : 180;
   }
-  return 0
+  return 0;
 }
 
 /**
@@ -68,46 +68,44 @@ export function computeConnectorDirection(
 export function computeEligibleChamferPositions(
   tiles: boolean[][],
 ): boolean[][] {
-  const rows = tiles.length
-  const cols = tiles[0]?.length ?? 0
-  const result: boolean[][] = []
+  const rows = tiles.length;
+  const cols = tiles[0]?.length ?? 0;
+  const result: boolean[][] = [];
   for (let i = 0; i <= rows; i++) {
-    const row: boolean[] = []
+    const row: boolean[] = [];
     for (let j = 0; j <= cols; j++) {
       const count = [
         isTile(tiles, i - 1, j - 1),
         isTile(tiles, i - 1, j),
         isTile(tiles, i, j - 1),
         isTile(tiles, i, j),
-      ].filter(Boolean).length
-      row.push(count === 1)
+      ].filter(Boolean).length;
+      row.push(count === 1);
     }
-    result.push(row)
+    result.push(row);
   }
-  return result
+  return result;
 }
 
 /**
  * Summit (i,j) is eligible for a screw iff all 4 neighboring cells are tiles.
  */
-export function computeEligibleScrewPositions(
-  tiles: boolean[][],
-): boolean[][] {
-  const rows = tiles.length
-  const cols = tiles[0]?.length ?? 0
-  const result: boolean[][] = []
+export function computeEligibleScrewPositions(tiles: boolean[][]): boolean[][] {
+  const rows = tiles.length;
+  const cols = tiles[0]?.length ?? 0;
+  const result: boolean[][] = [];
   for (let i = 0; i <= rows; i++) {
-    const row: boolean[] = []
+    const row: boolean[] = [];
     for (let j = 0; j <= cols; j++) {
-      const tl = isTile(tiles, i - 1, j - 1)
-      const tr = isTile(tiles, i - 1, j)
-      const bl = isTile(tiles, i, j - 1)
-      const br = isTile(tiles, i, j)
-      row.push(tl && tr && bl && br)
+      const tl = isTile(tiles, i - 1, j - 1);
+      const tr = isTile(tiles, i - 1, j);
+      const bl = isTile(tiles, i, j - 1);
+      const br = isTile(tiles, i, j);
+      row.push(tl && tr && bl && br);
     }
-    result.push(row)
+    result.push(row);
   }
-  return result
+  return result;
 }
 
 /**
@@ -118,35 +116,35 @@ export function computeEligibleScrewPositions(
 export function computeCornerScrewPositions(
   eligible: boolean[][],
 ): boolean[][] {
-  const nRows = eligible.length
-  const nCols = eligible[0]?.length ?? 0
+  const nRows = eligible.length;
+  const nCols = eligible[0]?.length ?? 0;
 
   function isEligible(r: number, c: number): boolean {
-    if (r >= 0 && r < nRows && c >= 0 && c < nCols) return eligible[r][c]
-    return false
+    if (r >= 0 && r < nRows && c >= 0 && c < nCols) return eligible[r][c];
+    return false;
   }
 
-  const result: boolean[][] = []
+  const result: boolean[][] = [];
   for (let i = 0; i < nRows; i++) {
-    const row: boolean[] = []
+    const row: boolean[] = [];
     for (let j = 0; j < nCols; j++) {
       if (!eligible[i][j]) {
-        row.push(false)
-        continue
+        row.push(false);
+        continue;
       }
-      const hThrough = isEligible(i, j - 1) && isEligible(i, j + 1)
-      const vThrough = isEligible(i - 1, j) && isEligible(i + 1, j)
-      row.push(!hThrough && !vThrough)
+      const hThrough = isEligible(i, j - 1) && isEligible(i, j + 1);
+      const vThrough = isEligible(i - 1, j) && isEligible(i + 1, j);
+      row.push(!hThrough && !vThrough);
     }
-    result.push(row)
+    result.push(row);
   }
-  return result
+  return result;
 }
 
 export interface Eligibility {
-  connectors: boolean[][]
-  chamfers: boolean[][]
-  screws: boolean[][]
+  connectors: boolean[][];
+  chamfers: boolean[][];
+  screws: boolean[][];
 }
 
 export function computeAllEligibility(tiles: boolean[][]): Eligibility {
@@ -154,5 +152,5 @@ export function computeAllEligibility(tiles: boolean[][]): Eligibility {
     connectors: computeEligibleConnectorPositions(tiles),
     chamfers: computeEligibleChamferPositions(tiles),
     screws: computeEligibleScrewPositions(tiles),
-  }
+  };
 }

@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 interface GridFeaturesToolbarProps {
-  onEnableAllConnectors: () => void
-  onEnableAllChamfers: () => void
-  onEnableAllScrews: () => void
-  onEnableCornerScrews: () => void
-  onClearAllConnectors: () => void
-  onClearAllChamfers: () => void
-  onClearAllScrews: () => void
+  onEnableAllConnectors: () => void;
+  onEnableAllChamfers: () => void;
+  onEnableAllScrews: () => void;
+  onEnableCornerScrews: () => void;
+  onClearAllConnectors: () => void;
+  onClearAllChamfers: () => void;
+  onClearAllScrews: () => void;
 }
 
 export function GridFeaturesToolbar({
@@ -51,5 +51,5 @@ export function GridFeaturesToolbar({
         </Button>
       </div>
     </div>
-  )
+  );
 }

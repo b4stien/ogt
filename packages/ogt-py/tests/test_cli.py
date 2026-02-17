@@ -90,10 +90,11 @@ def test_compact_code_with_size_errors():
 def test_draw_creates_stl(tmp_path):
     # First create a plan
     plan_path = tmp_path / "plan.json"
-    CliRunner().invoke(
+    prep = CliRunner().invoke(
         cli,
         ["prepare", "--size", "2x2", "--connectors", "--tile-chamfers", "-o", str(plan_path)],
     )
+    assert prep.exit_code == 0, prep.output
 
     # Then draw it
     output = tmp_path / "grid.stl"
@@ -105,7 +106,8 @@ def test_draw_creates_stl(tmp_path):
 
 def test_draw_auto_name(tmp_path):
     plan_path = tmp_path / "opengrid-2x2.json"
-    CliRunner().invoke(cli, ["prepare", "--size", "2x2", "-o", str(plan_path)])
+    prep = CliRunner().invoke(cli, ["prepare", "--size", "2x2", "-o", str(plan_path)])
+    assert prep.exit_code == 0, prep.output
 
     result = CliRunner().invoke(cli, ["draw", str(plan_path)])
     assert result.exit_code == 0, result.output
@@ -114,7 +116,8 @@ def test_draw_auto_name(tmp_path):
 
 def test_draw_stl_format(tmp_path):
     plan_path = tmp_path / "plan.json"
-    CliRunner().invoke(cli, ["prepare", "--size", "2x2", "-o", str(plan_path)])
+    prep = CliRunner().invoke(cli, ["prepare", "--size", "2x2", "-o", str(plan_path)])
+    assert prep.exit_code == 0, prep.output
 
     output = tmp_path / "grid.stl"
     result = CliRunner().invoke(
@@ -185,14 +188,17 @@ def test_roundtrip(tmp_path):
     stl_via_draw = tmp_path / "via_draw.stl"
     stl_via_generate = tmp_path / "via_generate.stl"
 
-    CliRunner().invoke(cli, ["prepare", "--size", "2x2", "--connectors", "-o", str(plan_path)])
-    CliRunner().invoke(
+    prep = CliRunner().invoke(cli, ["prepare", "--size", "2x2", "--connectors", "-o", str(plan_path)])
+    assert prep.exit_code == 0, prep.output
+    draw = CliRunner().invoke(
         cli, ["draw", str(plan_path), "--format", "stl", "-o", str(stl_via_draw)]
     )
-    CliRunner().invoke(
+    assert draw.exit_code == 0, draw.output
+    gen = CliRunner().invoke(
         cli,
         ["generate", "--size", "2x2", "--connectors", "--format", "stl", "-o", str(stl_via_generate)],
     )
+    assert gen.exit_code == 0, gen.output
 
     # Both files should exist and have content
     assert stl_via_draw.exists()

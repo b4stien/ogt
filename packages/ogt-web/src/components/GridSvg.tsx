@@ -380,7 +380,12 @@ export function GridSvg({
   const viewBox = `${-DIM_OFFSET} ${-DIM_OFFSET} ${svgW} ${svgH}`;
 
   return (
-    <svg viewBox={viewBox} width={svgW} height={svgH} style={{ marginLeft: -46 }}>
+    <svg
+      viewBox={viewBox}
+      width={svgW}
+      height={svgH}
+      style={{ marginLeft: -46 }}
+    >
       {/* Layer 1: Tile cells */}
       {tiles.map((row, r) =>
         row.map((present, c) => (
@@ -669,9 +674,30 @@ export function GridSvg({
         const label = `${cols} column${cols > 1 ? "s" : ""} · ${(cols * TILE_SIZE_CM).toFixed(1)} cm`;
         return (
           <g>
-            <line x1={x1} y1={y} x2={x2} y2={y} stroke={DIM_COLOR} strokeWidth={0.5} />
-            <line x1={x1} y1={y - DIM_TICK / 2} x2={x1} y2={y + DIM_TICK / 2} stroke={DIM_COLOR} strokeWidth={0.5} />
-            <line x1={x2} y1={y - DIM_TICK / 2} x2={x2} y2={y + DIM_TICK / 2} stroke={DIM_COLOR} strokeWidth={0.5} />
+            <line
+              x1={x1}
+              y1={y}
+              x2={x2}
+              y2={y}
+              stroke={DIM_COLOR}
+              strokeWidth={0.5}
+            />
+            <line
+              x1={x1}
+              y1={y - DIM_TICK / 2}
+              x2={x1}
+              y2={y + DIM_TICK / 2}
+              stroke={DIM_COLOR}
+              strokeWidth={0.5}
+            />
+            <line
+              x1={x2}
+              y1={y - DIM_TICK / 2}
+              x2={x2}
+              y2={y + DIM_TICK / 2}
+              stroke={DIM_COLOR}
+              strokeWidth={0.5}
+            />
             <text
               x={(x1 + x2) / 2}
               y={y - DIM_TICK}
@@ -695,9 +721,30 @@ export function GridSvg({
         const cy = (y1 + y2) / 2;
         return (
           <g>
-            <line x1={x} y1={y1} x2={x} y2={y2} stroke={DIM_COLOR} strokeWidth={0.5} />
-            <line x1={x - DIM_TICK / 2} y1={y1} x2={x + DIM_TICK / 2} y2={y1} stroke={DIM_COLOR} strokeWidth={0.5} />
-            <line x1={x - DIM_TICK / 2} y1={y2} x2={x + DIM_TICK / 2} y2={y2} stroke={DIM_COLOR} strokeWidth={0.5} />
+            <line
+              x1={x}
+              y1={y1}
+              x2={x}
+              y2={y2}
+              stroke={DIM_COLOR}
+              strokeWidth={0.5}
+            />
+            <line
+              x1={x - DIM_TICK / 2}
+              y1={y1}
+              x2={x + DIM_TICK / 2}
+              y2={y1}
+              stroke={DIM_COLOR}
+              strokeWidth={0.5}
+            />
+            <line
+              x1={x - DIM_TICK / 2}
+              y1={y2}
+              x2={x + DIM_TICK / 2}
+              y2={y2}
+              stroke={DIM_COLOR}
+              strokeWidth={0.5}
+            />
             <text
               x={cx}
               y={cy}

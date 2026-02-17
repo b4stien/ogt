@@ -1,7 +1,7 @@
 {
-	"name": "ogt-web",
-	"compatibility_date": "2026-02-16",
-	"assets": {
-		"directory": "./dist"
-	}
+  "name": "ogt-web",
+  "compatibility_date": "2026-02-16",
+  "assets": {
+    "directory": "./dist",
+  },
 }
