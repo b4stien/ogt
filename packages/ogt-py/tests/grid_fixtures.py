@@ -19,7 +19,7 @@ class GridConfig:
     connectors: bool
     ref_file: str
     screws: Literal["corners", "all"] | None = None
-    opengrid_type: Literal["full", "light"] = "full"
+    opengrid_type: Literal["full", "lite"] = "full"
 
 
 GRID_CONFIGS = [
@@ -92,7 +92,7 @@ GRID_CONFIGS = [
             chamfers=True,
             connectors=True,
             screws="corners",
-            opengrid_type="light",
+            opengrid_type="lite",
             ref_file="printables_davidd-lite-2x2-chamfers-connectors-screws.3mf",
         ),
         id="lite-2x2-chamfers-connectors-screws",
@@ -104,7 +104,7 @@ GRID_CONFIGS = [
             chamfers=True,
             connectors=True,
             screws="corners",
-            opengrid_type="light",
+            opengrid_type="lite",
             ref_file="printables_davidd-lite-4x2-chamfers-connectors-screws.3mf",
         ),
         id="lite-4x2-chamfers-connectors-screws",

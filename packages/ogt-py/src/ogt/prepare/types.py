@@ -34,7 +34,7 @@ class GridPlan(BaseModel):
 
     tiles: list[list[bool]]  # rows x cols, True = place tile
     summits: list[list[SummitFeatures]]  # (rows+1) x (cols+1) features
-    opengrid_type: Literal["full", "light"] = "full"
+    opengrid_type: Literal["full", "lite"] = "full"
     screw_size: ScrewSize = ScrewSize()
 
     @model_validator(mode="after")

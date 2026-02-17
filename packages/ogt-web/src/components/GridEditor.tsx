@@ -67,14 +67,14 @@ export function GridEditor() {
             </button>
             <button
               type="button"
-              onClick={() => state.setOpengridType("light")}
+              onClick={() => state.setOpengridType("lite")}
               className={`px-3 flex items-center text-sm font-medium border-l cursor-pointer ${
-                state.opengridType === "light"
+                state.opengridType === "lite"
                   ? "bg-primary text-primary-foreground"
                   : "text-foreground hover:bg-muted"
               }`}
             >
-              Light
+              Lite
             </button>
           </div>
           <GridFeaturesToolbar

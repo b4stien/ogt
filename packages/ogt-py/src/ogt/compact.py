@@ -9,7 +9,7 @@ Format specification v0
 | Field     | Description                                                 | Example |
 +-----------+-------------------------------------------------------------+---------+
 | ``0``     | Version of the format                                       | ``0``   |
-| ``TYPE``  | ``f`` = full, ``l`` = light                                 | ``f``   |
+| ``TYPE``  | ``f`` = full, ``l`` = lite                                 | ``f``   |
 | ``R``     | Number of rows (decimal)                                    | ``2``   |
 | ``C``     | Number of columns (decimal)                                 | ``3``   |
 | ``SCREW`` | 3 uint8 in 0.1 mm: [diameter, head_diameter, head_inset]    | ``KlAK``|
@@ -148,7 +148,7 @@ def decode(code: str) -> GridPlan:
 
     if type_char not in ("f", "l"):
         raise ValueError(f"Invalid type: {type_char!r}")
-    opengrid_type: str = "full" if type_char == "f" else "light"
+    opengrid_type: str = "full" if type_char == "f" else "lite"
 
     try:
         rows = int(r_str)

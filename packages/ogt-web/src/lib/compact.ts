@@ -120,7 +120,7 @@ export function decode(code: string): GridPlan {
   if (typeChar !== "f" && typeChar !== "l")
     throw new Error(`Invalid type: '${typeChar}'`);
 
-  const opengridType = typeChar === "f" ? "full" : "light";
+  const opengridType = typeChar === "f" ? "full" : "lite";
   const rows = parseInt(rStr, 10);
   const cols = parseInt(cStr, 10);
   if (isNaN(rows) || isNaN(cols))
@@ -187,7 +187,7 @@ export function decode(code: string): GridPlan {
   return {
     tiles,
     summits,
-    opengrid_type: opengridType as "full" | "light",
+    opengrid_type: opengridType as "full" | "lite",
     screw_size: screwSize,
   };
 }

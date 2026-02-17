@@ -24,7 +24,7 @@ from ogt.slot import Slot, Tile
 
 def prepare_grid(
     layout: list[list[Slot]],
-    opengrid_type: Literal["full", "light"] = "full",
+    opengrid_type: Literal["full", "lite"] = "full",
     connectors: bool = False,
     tile_chamfers: bool = False,
     screws: None | Literal["corners", "all"] = None,
@@ -36,7 +36,7 @@ def prepare_grid(
     ----------
     layout : list[list[Slot]]
         2D array of Slot objects.
-    opengrid_type : ``"full"`` | ``"light"``
+    opengrid_type : ``"full"`` | ``"lite"``
         Which tile variant to use.
     connectors : bool
         Whether to add connector cutouts.
@@ -52,7 +52,7 @@ def prepare_grid(
     GridPlan
     """
     if screw_size is None:
-        if opengrid_type == "light":
+        if opengrid_type == "lite":
             screw_size = ScrewSize(
                 diameter=LITE_DEFAULT_SCREW_DIAMETER,
                 head_diameter=LITE_DEFAULT_SCREW_HEAD_DIAMETER,

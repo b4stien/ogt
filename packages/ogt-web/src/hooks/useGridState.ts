@@ -38,15 +38,15 @@ function pruneSummits(
 }
 
 export function useGridState(initialRows: number, initialCols: number) {
-  const [opengridType, setOpengridTypeRaw] = useState<"full" | "light">("full");
+  const [opengridType, setOpengridTypeRaw] = useState<"full" | "lite">("full");
   const [screwSize, setScrewSize] = useState<ScrewSize>({
     ...DEFAULT_SCREW_SIZE,
   });
 
-  const setOpengridType = useCallback((type: "full" | "light") => {
+  const setOpengridType = useCallback((type: "full" | "lite") => {
     setOpengridTypeRaw(type);
     setScrewSize(
-      type === "light" ? LITE_DEFAULT_SCREW_SIZE : DEFAULT_SCREW_SIZE,
+      type === "lite" ? LITE_DEFAULT_SCREW_SIZE : DEFAULT_SCREW_SIZE,
     );
   }, []);
   const [tiles, setTiles] = useState<boolean[][]>(

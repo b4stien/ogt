@@ -94,7 +94,7 @@ def test_bounding_box_dimensions(config):
     extents = sorted([bb.xlen, bb.ylen, bb.zlen])
     expected_x = TILE_SIZE * config.cols
     expected_y = TILE_SIZE * config.rows
-    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "light" else TILE_THICKNESS
+    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "lite" else TILE_THICKNESS
     expected = sorted([expected_x, expected_y, thickness])
     for actual, exp in zip(extents, expected):
         assert actual == pytest.approx(exp, abs=0.005)
@@ -105,13 +105,13 @@ def test_bounding_box_dimensions(config):
 
 def test_light_tile_not_empty():
     layout = [[Tile()] * 2 for _ in range(2)]
-    grid = make_opengrid(layout, opengrid_type="light")
+    grid = make_opengrid(layout, opengrid_type="lite")
     assert grid.val().Volume() > 0
 
 
 def test_light_tile_bounding_box():
     layout = [[Tile()] * 2 for _ in range(2)]
-    grid = make_opengrid(layout, opengrid_type="light")
+    grid = make_opengrid(layout, opengrid_type="lite")
     bb = grid.val().BoundingBox()
     extents = sorted([bb.xlen, bb.ylen, bb.zlen])
     expected = sorted([TILE_SIZE * 2, TILE_SIZE * 2, LITE_TILE_THICKNESS])
@@ -122,5 +122,5 @@ def test_light_tile_bounding_box():
 def test_light_tile_thinner_than_full():
     layout = [[Tile()]]
     full = make_opengrid(layout, opengrid_type="full")
-    light = make_opengrid(layout, opengrid_type="light")
+    light = make_opengrid(layout, opengrid_type="lite")
     assert light.val().Volume() < full.val().Volume()

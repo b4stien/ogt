@@ -117,7 +117,7 @@ def test_js_bounding_box_dimensions(config):
     extents = sorted(js_mesh.bounding_box.extents)
     expected_x = TILE_SIZE * config.cols
     expected_y = TILE_SIZE * config.rows
-    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "light" else TILE_THICKNESS
+    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "lite" else TILE_THICKNESS
     expected = sorted([expected_x, expected_y, thickness])
     for actual, exp in zip(extents, expected):
         assert actual == pytest.approx(exp, abs=0.005)
