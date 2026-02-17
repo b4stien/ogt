@@ -26,6 +26,13 @@ jobs:
       - run: uv run ruff check
       - run: uv run ruff format --check
       - run: uv run ty check
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: packages/ogt-web/.node-version
+          cache: npm
+          cache-dependency-path: packages/ogt-web/package-lock.json
+      - run: npm ci
+        working-directory: packages/ogt-web
       - run: uv run pytest
 
   web:
