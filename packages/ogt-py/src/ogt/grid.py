@@ -20,7 +20,7 @@ def make_opengrid(
     connectors: bool = False,
     tile_chamfers: bool = False,
     screws: None | Literal["corners", "all"] = None,
-    screw_size: ScrewSize = ScrewSize(),
+    screw_size: ScrewSize | None = None,
 ) -> cq.Workplane:
     """Create an NxM grid of openGrid tiles.
 

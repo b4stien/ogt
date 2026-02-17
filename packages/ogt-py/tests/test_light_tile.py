@@ -7,7 +7,7 @@ import pytest
 import trimesh
 
 from ogt.constants import TILE_SIZE
-from ogt.draw.tile.light import LITE_TILE_THICKNESS, make_opengrid_light_tile
+from ogt.draw.tile.light import make_opengrid_light_tile
 
 RETROENGINEER_DIR = Path(__file__).resolve().parent.parent.parent.parent / "retroengineer"
 STEP_FILE = RETROENGINEER_DIR / "opengrid-lite-5x5.step"

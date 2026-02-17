@@ -9,6 +9,12 @@ export const DEFAULT_SCREW_SIZE: ScrewSize = {
   head_inset: 1.0,
 };
 
+export const LITE_DEFAULT_SCREW_SIZE: ScrewSize = {
+  diameter: 4.1,
+  head_diameter: 7.2,
+  head_inset: 1.0,
+};
+
 export function emptySummit(): SummitFeatures {
   return { connector_angle: null, tile_chamfer: false, screw: false };
 }

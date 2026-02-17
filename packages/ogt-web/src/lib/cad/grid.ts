@@ -54,11 +54,13 @@ export function drawGrid(plan: GridPlan): Solid {
       if (summit.connector_angle !== null) {
         if (connectorTemplate === null) {
           connectorTemplate = makeConnectorCutout();
-          const thickness =
-            plan.opengrid_type === "light"
-              ? LITE_TILE_THICKNESS
-              : TILE_THICKNESS;
-          connectorZ = thickness / 2 - CONNECTOR_CUTOUT_HEIGHT / 2;
+          if (plan.opengrid_type === "light") {
+            // Lite tile: connector is not centered (asymmetric wall
+            // profile). Z=1.0 measured from reference STEP.
+            connectorZ = 1.0;
+          } else {
+            connectorZ = TILE_THICKNESS / 2 - CONNECTOR_CUTOUT_HEIGHT / 2;
+          }
         }
         const cutout = connectorTemplate
           .clone()
@@ -76,7 +78,15 @@ export function drawGrid(plan: GridPlan): Solid {
 
       if (summit.screw) {
         if (screwTemplate === null) {
-          screwTemplate = makeScrewCutout(plan.screw_size);
+          const thickness =
+            plan.opengrid_type === "light"
+              ? LITE_TILE_THICKNESS
+              : TILE_THICKNESS;
+          screwTemplate = makeScrewCutout(
+            plan.screw_size,
+            thickness,
+            plan.opengrid_type === "light",
+          );
         }
         const cutout = screwTemplate.clone().translate(sx, sy, 0) as Solid;
         result = result.cut(cutout) as Solid;

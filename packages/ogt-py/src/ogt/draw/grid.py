@@ -65,10 +65,12 @@ def draw_grid(plan: GridPlan) -> cq.Workplane:
             if summit.connector_angle is not None:
                 if connector_template is None:
                     connector_template = make_connector_cutout()
-                    thickness = (
-                        LITE_TILE_THICKNESS if plan.opengrid_type == "light" else TILE_THICKNESS
-                    )
-                    connector_z = thickness / 2 - CONNECTOR_CUTOUT_HEIGHT / 2
+                    if plan.opengrid_type == "light":
+                        # Lite tile: connector is not centered (asymmetric wall
+                        # profile). Z=1.0 measured from reference STEP.
+                        connector_z = 1.0
+                    else:
+                        connector_z = TILE_THICKNESS / 2 - CONNECTOR_CUTOUT_HEIGHT / 2
                 cutout = connector_template.rotate(
                     (0, 0, 0), (0, 0, 1), summit.connector_angle
                 ).translate((sx, sy, connector_z))
@@ -80,7 +82,14 @@ def draw_grid(plan: GridPlan) -> cq.Workplane:
 
             if summit.screw:
                 if screw_template is None:
-                    screw_template = make_screw_cutout(plan.screw_size)
+                    thickness = (
+                        LITE_TILE_THICKNESS if plan.opengrid_type == "light" else TILE_THICKNESS
+                    )
+                    screw_template = make_screw_cutout(
+                        plan.screw_size,
+                        thickness,
+                        head_at_bottom=plan.opengrid_type == "light",
+                    )
                 result = result.cut(screw_template.translate((sx, sy, 0)))
 
     return result

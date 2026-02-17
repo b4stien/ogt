@@ -11,7 +11,14 @@ from ogt.prepare.screws import (
     compute_eligible_screw_positions,
 )
 from ogt.prepare.tile_chamfers import compute_eligible_tile_chamfer_positions
-from ogt.prepare.types import GridPlan, ScrewSize, SummitFeatures
+from ogt.prepare.types import (
+    LITE_DEFAULT_SCREW_DIAMETER,
+    LITE_DEFAULT_SCREW_HEAD_DIAMETER,
+    LITE_DEFAULT_SCREW_HEAD_INSET,
+    GridPlan,
+    ScrewSize,
+    SummitFeatures,
+)
 from ogt.slot import Slot, Tile
 
 
@@ -21,7 +28,7 @@ def prepare_grid(
     connectors: bool = False,
     tile_chamfers: bool = False,
     screws: None | Literal["corners", "all"] = None,
-    screw_size: ScrewSize = ScrewSize(),
+    screw_size: ScrewSize | None = None,
 ) -> GridPlan:
     """Analyze a layout and produce an exhaustive GridPlan.
 
@@ -37,13 +44,23 @@ def prepare_grid(
         Whether to add tile chamfer cutouts.
     screws : None | ``"corners"`` | ``"all"``
         Screw placement mode.
-    screw_size : ScrewSize
-        Screw dimensions.
+    screw_size : ScrewSize | None
+        Screw dimensions.  ``None`` uses type-specific defaults.
 
     Returns
     -------
     GridPlan
     """
+    if screw_size is None:
+        if opengrid_type == "light":
+            screw_size = ScrewSize(
+                diameter=LITE_DEFAULT_SCREW_DIAMETER,
+                head_diameter=LITE_DEFAULT_SCREW_HEAD_DIAMETER,
+                head_inset=LITE_DEFAULT_SCREW_HEAD_INSET,
+            )
+        else:
+            screw_size = ScrewSize()
+
     n_rows = len(layout)
     n_cols = len(layout[0])
 

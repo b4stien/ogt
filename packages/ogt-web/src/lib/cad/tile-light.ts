@@ -28,12 +28,10 @@ function makeCornerWall(): Solid {
   const extrudeLen = TILE_SIZE * SQRT2;
 
   const profile = draw([0.0, LITE_TILE_THICKNESS])
-    .lineTo([3.52, LITE_TILE_THICKNESS])
-    .lineTo([3.52, 1.4])
-    .lineTo([2.12, 0.0])
-    .lineTo([1.55, 0.0])
-    .lineTo([1.55, 1.0])
-    .lineTo([0.0, 2.55])
+    .lineTo([5.57, LITE_TILE_THICKNESS])
+    .lineTo([5.57, 1.4])
+    .lineTo([4.17, 0.0])
+    .lineTo([0.0, 0.0])
     .close()
     .sketchOnPlane("YZ")
     .extrude(extrudeLen) as Solid;
