@@ -6,6 +6,7 @@ import trimesh
 from ogt import Tile, make_opengrid
 from ogt.constants import TILE_SIZE
 from ogt.draw.tile.full import TILE_THICKNESS
+from ogt.draw.tile.lite import LITE_TILE_THICKNESS
 
 from grid_fixtures import GRID_CONFIGS, GridConfig, load_reference_mesh
 
@@ -15,6 +16,7 @@ def build_grid(config: GridConfig):
     layout = [[Tile()] * config.cols for _ in range(config.rows)]
     return make_opengrid(
         layout,
+        opengrid_type=config.opengrid_type,
         connectors=config.connectors,
         tile_chamfers=config.chamfers,
         screws=config.screws,
@@ -92,6 +94,33 @@ def test_bounding_box_dimensions(config):
     extents = sorted([bb.xlen, bb.ylen, bb.zlen])
     expected_x = TILE_SIZE * config.cols
     expected_y = TILE_SIZE * config.rows
-    expected = sorted([expected_x, expected_y, TILE_THICKNESS])
+    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "lite" else TILE_THICKNESS
+    expected = sorted([expected_x, expected_y, thickness])
     for actual, exp in zip(extents, expected):
         assert actual == pytest.approx(exp, abs=0.005)
+
+
+# ── Lite tile tests ──
+
+
+def test_lite_tile_not_empty():
+    layout = [[Tile()] * 2 for _ in range(2)]
+    grid = make_opengrid(layout, opengrid_type="lite")
+    assert grid.val().Volume() > 0
+
+
+def test_lite_tile_bounding_box():
+    layout = [[Tile()] * 2 for _ in range(2)]
+    grid = make_opengrid(layout, opengrid_type="lite")
+    bb = grid.val().BoundingBox()
+    extents = sorted([bb.xlen, bb.ylen, bb.zlen])
+    expected = sorted([TILE_SIZE * 2, TILE_SIZE * 2, LITE_TILE_THICKNESS])
+    for actual, exp in zip(extents, expected):
+        assert actual == pytest.approx(exp, abs=0.005)
+
+
+def test_lite_tile_thinner_than_full():
+    layout = [[Tile()]]
+    full = make_opengrid(layout, opengrid_type="full")
+    lite = make_opengrid(layout, opengrid_type="lite")
+    assert lite.val().Volume() < full.val().Volume()

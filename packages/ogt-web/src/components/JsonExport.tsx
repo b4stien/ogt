@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CadExportButton } from "@/components/StepExportButton";
 import { encode } from "@/lib/compact";
 import { TILE_THICKNESS } from "@/lib/cad/constants";
+import { LITE_TILE_THICKNESS } from "@/lib/cad/tile-lite";
 import { TILE_SIZE_CM } from "@/lib/defaults";
 import type { GridPlan } from "@/lib/types";
 import { useWorkerStatus } from "@/hooks/useWorkerStatus";
@@ -65,10 +66,16 @@ function CommandRow({ label, command, status, onCopy }: CommandRowProps) {
 interface JsonExportProps {
   rows: number;
   cols: number;
+  opengridType: "full" | "lite";
   toGridPlan: () => GridPlan;
 }
 
-export function JsonExport({ rows, cols, toGridPlan }: JsonExportProps) {
+export function JsonExport({
+  rows,
+  cols,
+  opengridType,
+  toGridPlan,
+}: JsonExportProps) {
   const workerState = useWorkerStatus();
   const plan = useMemo(() => toGridPlan(), [toGridPlan]);
   const compactCode = useMemo(() => encode(plan), [plan]);
@@ -78,14 +85,15 @@ export function JsonExport({ rows, cols, toGridPlan }: JsonExportProps) {
   const [uvxStatus, copyUvx] = useCopyStatus();
   const [pipxStatus, copyPipx] = useCopyStatus();
 
-  const filenameBase = `opengrid-${cols}x${rows}`;
+  const filenameBase = `opengrid-${opengridType === "lite" ? "lite-" : ""}${cols}x${rows}`;
 
   return (
     <div className="flex flex-col gap-2">
       <span className="text-sm text-muted-foreground">
         {rows} row{rows > 1 ? "s" : ""} x {cols} column{cols > 1 ? "s" : ""} ·{" "}
         {(rows * TILE_SIZE_CM).toFixed(1)} cm x{" "}
-        {(cols * TILE_SIZE_CM).toFixed(1)} cm x {TILE_THICKNESS} mm
+        {(cols * TILE_SIZE_CM).toFixed(1)} cm x{" "}
+        {opengridType === "lite" ? LITE_TILE_THICKNESS : TILE_THICKNESS} mm
       </span>
       <div className="flex gap-2 items-center">
         <CadExportButton

@@ -16,11 +16,11 @@ from ogt.slot import Slot
 
 def make_opengrid(
     layout: list[list[Slot]],
-    opengrid_type: Literal["full", "light"] = "full",
+    opengrid_type: Literal["full", "lite"] = "full",
     connectors: bool = False,
     tile_chamfers: bool = False,
     screws: None | Literal["corners", "all"] = None,
-    screw_size: ScrewSize = ScrewSize(),
+    screw_size: ScrewSize | None = None,
 ) -> cq.Workplane:
     """Create an NxM grid of openGrid tiles.
 
@@ -31,7 +31,7 @@ def make_opengrid(
         leave a gap.
         Row 0 at Y=0, increasing rows go -Y (they go "down").
         Col 0 at X=0, increasing cols go +X (they go "right").
-    opengrid_type : ``"full"`` | ``"light"``
+    opengrid_type : ``"full"`` | ``"lite"``
         Which tile variant to use.
 
     Returns

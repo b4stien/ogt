@@ -85,7 +85,7 @@ def prepare_options(fn):
     @click.option(
         "--type",
         "opengrid_type",
-        type=click.Choice(["full", "light"]),
+        type=click.Choice(["full", "lite"]),
         default="full",
         help="Tile variant.",
     )

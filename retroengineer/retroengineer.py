@@ -163,13 +163,13 @@ def retroengineer_tile_inner_corners(center_tile):
 
         # Break down the extent in the 45° frame where numbers are rounder.
         # The full height of the post is ±3.4 (same as the wall). The flat
-        # section is the part at full height; the chamfer tapers off after.
+        # section is the part at full height; the taper narrows after.
         full_h = max(abs(z) for _, z in path)
         flat_end = max(y for y, z in path if abs(abs(z) - full_h) < 0.01)
-        chamfer = max(y for y, _ in path) - flat_end
+        taper = max(y for y, _ in path) - flat_end
         print(f"\n  In the 45° frame the extent is {extent_45:.3f}:")
         print(f"    flat section (full height): {flat_end:.3f}")
-        print(f"    chamfer taper:              {chamfer:.3f}")
+        print(f"    taper:                      {taper:.3f}")
         print(f"  Dividing by sqrt(2) gives the non-round X/Y value {extent_xy:.3f}.")
 
     print(f"\n  FRAME CONSTRUCTION:")
@@ -390,7 +390,7 @@ WALLS: Each tile has four walls, one per edge, running the full {PITCH:.0f}mm
 
 CORNER POSTS: The four corners correspond to the walls of the 45°-
   rotated frame. Their profile (visible in a 45° cross-section) has a
-  chamfered shape.
+  tapered shape.
 
 TILE ADJACENCY: Each tile has its own complete walls. Adjacent tiles
   sit back-to-back at tile boundaries (no wall merging). To make an

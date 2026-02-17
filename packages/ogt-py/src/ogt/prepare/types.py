@@ -8,6 +8,10 @@ DEFAULT_SCREW_DIAMETER = 4.2
 DEFAULT_SCREW_HEAD_DIAMETER = 8.0
 DEFAULT_SCREW_HEAD_INSET = 1.0
 
+LITE_DEFAULT_SCREW_DIAMETER = 4.1
+LITE_DEFAULT_SCREW_HEAD_DIAMETER = 7.2
+LITE_DEFAULT_SCREW_HEAD_INSET = 1.0
+
 
 class ScrewSize(BaseModel):
     model_config = ConfigDict(frozen=True)
@@ -30,7 +34,7 @@ class GridPlan(BaseModel):
 
     tiles: list[list[bool]]  # rows x cols, True = place tile
     summits: list[list[SummitFeatures]]  # (rows+1) x (cols+1) features
-    opengrid_type: Literal["full", "light"] = "full"
+    opengrid_type: Literal["full", "lite"] = "full"
     screw_size: ScrewSize = ScrewSize()
 
     @model_validator(mode="after")

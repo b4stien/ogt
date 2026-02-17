@@ -54,12 +54,28 @@ export function GridEditor() {
         />
         <div className="flex flex-col gap-2 max-w-3xl">
           <div className="inline-flex w-fit h-8 rounded-md border shadow-xs overflow-hidden select-none">
-            <span className="px-3 flex items-center text-sm font-medium bg-primary text-primary-foreground">
+            <button
+              type="button"
+              onClick={() => state.setOpengridType("full")}
+              className={`px-3 flex items-center text-sm font-medium cursor-pointer ${
+                state.opengridType === "full"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground hover:bg-muted"
+              }`}
+            >
               Full
-            </span>
-            <span className="px-3 flex items-center text-sm font-medium border-l text-muted-foreground cursor-not-allowed">
-              Light
-            </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => state.setOpengridType("lite")}
+              className={`px-3 flex items-center text-sm font-medium border-l cursor-pointer ${
+                state.opengridType === "lite"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground hover:bg-muted"
+              }`}
+            >
+              Lite
+            </button>
           </div>
           <GridFeaturesToolbar
             onEnableAllConnectors={state.enableAllConnectors}
@@ -97,6 +113,7 @@ export function GridEditor() {
           <JsonExport
             rows={state.rows}
             cols={state.cols}
+            opengridType={state.opengridType}
             toGridPlan={state.toGridPlan}
           />
         </div>
@@ -107,10 +124,6 @@ export function GridEditor() {
             small test print before committing to larger projects.
           </p>
           <p>
-            <strong>Light mode:</strong> The "Light" grid type is not available
-            yet.
-          </p>
-          <p>
             <strong>Grid preview:</strong> Green areas represent material that
             will be printed. When a feature (connector, chamfer, screw hole) is
             enabled, its spot turns light grey to indicate material will be
@@ -119,6 +132,28 @@ export function GridEditor() {
             individually.
           </p>
         </div>
+        <footer className="mt-10 text-sm text-muted-foreground">
+          <a
+            href="https://github.com/b4stien/ogt"
+            className="hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ogt repository on GitHub
+          </a>
+          <span className="mx-2">&middot;</span>
+          <span>
+            &copy; {new Date().getFullYear()}{" "}
+            <a
+              href="https://github.com/b4stien"
+              className="hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Bastien GANDOUET
+            </a>
+          </span>
+        </footer>
       </div>
     </div>
   );

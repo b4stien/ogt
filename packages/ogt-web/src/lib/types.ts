@@ -13,6 +13,6 @@ export interface SummitFeatures {
 export interface GridPlan {
   tiles: boolean[][];
   summits: SummitFeatures[][];
-  opengrid_type: "full" | "light";
+  opengrid_type: "full" | "lite";
   screw_size: ScrewSize;
 }

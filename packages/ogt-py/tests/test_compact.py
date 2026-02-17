@@ -74,11 +74,11 @@ def test_roundtrip_2x3_with_holes():
     _plans_equal(decode(encode(plan)), plan)
 
 
-def test_roundtrip_light_type():
+def test_roundtrip_lite_type():
     layout = [[Tile(), Tile()], [Tile(), Tile()]]
-    plan = prepare_grid(layout, opengrid_type="light", connectors=True)
+    plan = prepare_grid(layout, opengrid_type="lite", connectors=True)
     decoded = decode(encode(plan))
-    assert decoded.opengrid_type == "light"
+    assert decoded.opengrid_type == "lite"
     _plans_equal(decoded, plan)
 
 

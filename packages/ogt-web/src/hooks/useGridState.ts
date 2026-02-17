@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import {
   createEmptyGrid,
   DEFAULT_SCREW_SIZE,
+  LITE_DEFAULT_SCREW_SIZE,
   emptySummit,
 } from "@/lib/defaults";
 import {
@@ -37,10 +38,17 @@ function pruneSummits(
 }
 
 export function useGridState(initialRows: number, initialCols: number) {
-  const [opengridType, setOpengridType] = useState<"full" | "light">("full");
+  const [opengridType, setOpengridTypeRaw] = useState<"full" | "lite">("full");
   const [screwSize, setScrewSize] = useState<ScrewSize>({
     ...DEFAULT_SCREW_SIZE,
   });
+
+  const setOpengridType = useCallback((type: "full" | "lite") => {
+    setOpengridTypeRaw(type);
+    setScrewSize(
+      type === "lite" ? LITE_DEFAULT_SCREW_SIZE : DEFAULT_SCREW_SIZE,
+    );
+  }, []);
   const [tiles, setTiles] = useState<boolean[][]>(
     () => createEmptyGrid(initialRows, initialCols).tiles,
   );
