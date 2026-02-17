@@ -16,6 +16,7 @@ def build_grid(config: GridConfig):
     layout = [[Tile()] * config.cols for _ in range(config.rows)]
     return make_opengrid(
         layout,
+        opengrid_type=config.opengrid_type,
         connectors=config.connectors,
         tile_chamfers=config.chamfers,
         screws=config.screws,
@@ -93,7 +94,8 @@ def test_bounding_box_dimensions(config):
     extents = sorted([bb.xlen, bb.ylen, bb.zlen])
     expected_x = TILE_SIZE * config.cols
     expected_y = TILE_SIZE * config.rows
-    expected = sorted([expected_x, expected_y, TILE_THICKNESS])
+    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "light" else TILE_THICKNESS
+    expected = sorted([expected_x, expected_y, thickness])
     for actual, exp in zip(extents, expected):
         assert actual == pytest.approx(exp, abs=0.005)
 

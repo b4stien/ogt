@@ -19,6 +19,7 @@ class GridConfig:
     connectors: bool
     ref_file: str
     screws: Literal["corners", "all"] | None = None
+    opengrid_type: Literal["full", "light"] = "full"
 
 
 GRID_CONFIGS = [
@@ -83,6 +84,30 @@ GRID_CONFIGS = [
             ref_file="gridfinity_perplexinglabs-8x4-chamfers-connectors-screws.stl",
         ),
         id="8x4-chamfers-connectors-screws",
+    ),
+    pytest.param(
+        GridConfig(
+            cols=2,
+            rows=2,
+            chamfers=True,
+            connectors=True,
+            screws="corners",
+            opengrid_type="light",
+            ref_file="printables_davidd-lite-2x2-chamfers-connectors-screws.3mf",
+        ),
+        id="lite-2x2-chamfers-connectors-screws",
+    ),
+    pytest.param(
+        GridConfig(
+            cols=4,
+            rows=2,
+            chamfers=True,
+            connectors=True,
+            screws="corners",
+            opengrid_type="light",
+            ref_file="printables_davidd-lite-4x2-chamfers-connectors-screws.3mf",
+        ),
+        id="lite-4x2-chamfers-connectors-screws",
     ),
 ]
 

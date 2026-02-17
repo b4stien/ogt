@@ -1,7 +1,13 @@
 """openGrid 1x1 light tile
 
 Light variant: 4mm-thick version of the full 6.8mm tile.
-Created by cutting the full tile profile at z=2.8mm and shifting down to z=0.
+Retroengineered from the original STEP file, see ./retroengineer.
+
+Construction: same two-frame union as the full tile (axis-aligned walls +
+45-degree-rotated corner posts), clipped to the tile footprint.  The corner
+post geometry is identical to the full tile, just truncated at 4mm height.
+The wall profile is NOT symmetric in Z: the bottom (Z=0) has the accessory
+clip lip, the top (Z=4.0) is a plain 0.8mm wall.
 
 """
 
@@ -17,18 +23,25 @@ _SQRT2 = math.sqrt(2)
 
 
 def _make_tile_wall() -> cq.Workplane:
-    """Axis-aligned wall segment (one side of the square frame)."""
+    """Axis-aligned wall segment (one side of the square frame).
+
+    Profile (YZ, Z=0 at bottom):
+        (0, 4.0) -> (0, 0) -> (1.1, 0) -> (1.5, 0.4) -> (1.5, 1.4)
+        -> (0.8, 2.4) -> (0.8, 4.0) -> close
+
+    NOT symmetric in Z: bottom has the clip lip, top is a plain 0.8mm wall.
+    """
     half_size = TILE_SIZE / 2  # 14
 
     profile = (
         cq.Workplane("YZ")
         .moveTo(0.0, LITE_TILE_THICKNESS)
         .lineTo(0.0, 0.0)
-        .lineTo(0.8, 0.0)
-        .lineTo(0.8, 1.6)
-        .lineTo(1.5, 2.6)
-        .lineTo(1.5, 3.6)
-        .lineTo(1.1, LITE_TILE_THICKNESS)
+        .lineTo(1.1, 0.0)
+        .lineTo(1.5, 0.4)
+        .lineTo(1.5, 1.4)
+        .lineTo(0.8, 2.4)
+        .lineTo(0.8, LITE_TILE_THICKNESS)
         .close()
         .extrude(TILE_SIZE)
     )
@@ -38,16 +51,23 @@ def _make_tile_wall() -> cq.Workplane:
 
 
 def _make_corner_wall() -> cq.Workplane:
-    """45-degree frame wall segment (corner post)."""
+    """45-degree frame wall segment (corner post).
+
+    Same geometry as the full tile corner post, just truncated at 4mm.
+    The bottom taper is 1.4 x 1.4 in the 45-degree frame.
+
+    Profile (YZ, Z=0 at bottom):
+        (0, 4.0) -> (5.57, 4.0) -> (5.57, 1.4) -> (4.17, 0) -> (0, 0) -> close
+    """
     half_size = TILE_SIZE / 2  # 14
     extrude_len = TILE_SIZE * _SQRT2
 
     profile = (
         cq.Workplane("YZ")
         .moveTo(0.0, LITE_TILE_THICKNESS)
-        .lineTo(4.17, LITE_TILE_THICKNESS)
-        .lineTo(5.57, 2.6)
-        .lineTo(5.57, 0.0)
+        .lineTo(5.57, LITE_TILE_THICKNESS)
+        .lineTo(5.57, 1.4)
+        .lineTo(4.17, 0.0)
         .lineTo(0.0, 0.0)
         .close()
         .extrude(extrude_len)

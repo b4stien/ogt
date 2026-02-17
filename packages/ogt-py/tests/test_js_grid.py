@@ -20,6 +20,7 @@ from ogt import Tile, prepare_grid
 from ogt.compact import encode
 from ogt.constants import TILE_SIZE
 from ogt.draw.tile.full import TILE_THICKNESS
+from ogt.draw.tile.light import LITE_TILE_THICKNESS
 
 from grid_fixtures import GRID_CONFIGS, GridConfig, load_reference_mesh
 
@@ -35,6 +36,7 @@ def _compact_code(config: GridConfig) -> str:
     layout = [[Tile()] * config.cols for _ in range(config.rows)]
     plan = prepare_grid(
         layout,
+        opengrid_type=config.opengrid_type,
         connectors=config.connectors,
         tile_chamfers=config.chamfers,
         screws=config.screws,
@@ -115,7 +117,8 @@ def test_js_bounding_box_dimensions(config):
     extents = sorted(js_mesh.bounding_box.extents)
     expected_x = TILE_SIZE * config.cols
     expected_y = TILE_SIZE * config.rows
-    expected = sorted([expected_x, expected_y, TILE_THICKNESS])
+    thickness = LITE_TILE_THICKNESS if config.opengrid_type == "light" else TILE_THICKNESS
+    expected = sorted([expected_x, expected_y, thickness])
     for actual, exp in zip(extents, expected):
         assert actual == pytest.approx(exp, abs=0.005)
 
