@@ -220,6 +220,66 @@ export function useGridState(initialRows: number, initialCols: number) {
     );
   }, []);
 
+  const setGridRows = useCallback(
+    (targetRows: number) => {
+      if (targetRows < 1 || targetRows === rows) return;
+      if (targetRows > rows) {
+        const diff = targetRows - rows;
+        setTiles((prev) => [
+          ...prev,
+          ...Array.from({ length: diff }, () =>
+            Array.from({ length: cols }, () => true),
+          ),
+        ]);
+        setSummits((prev) => [
+          ...prev,
+          ...Array.from({ length: diff }, () =>
+            Array.from({ length: cols + 1 }, () => emptySummit()),
+          ),
+        ]);
+      } else {
+        const newTiles = tiles.slice(0, targetRows);
+        const newElig = computeAllEligibility(newTiles);
+        setTiles(newTiles);
+        setSummits((prevS) => {
+          const trimmed = prevS.slice(0, targetRows + 1);
+          return pruneSummits(trimmed, newElig);
+        });
+      }
+    },
+    [rows, cols, tiles],
+  );
+
+  const setGridCols = useCallback(
+    (targetCols: number) => {
+      if (targetCols < 1 || targetCols === cols) return;
+      if (targetCols > cols) {
+        const diff = targetCols - cols;
+        setTiles((prev) =>
+          prev.map((row) => [
+            ...row,
+            ...Array.from({ length: diff }, () => true),
+          ]),
+        );
+        setSummits((prev) =>
+          prev.map((row) => [
+            ...row,
+            ...Array.from({ length: diff }, () => emptySummit()),
+          ]),
+        );
+      } else {
+        const newTiles = tiles.map((row) => row.slice(0, targetCols));
+        const newElig = computeAllEligibility(newTiles);
+        setTiles(newTiles);
+        setSummits((prevS) => {
+          const trimmed = prevS.map((row) => row.slice(0, targetCols + 1));
+          return pruneSummits(trimmed, newElig);
+        });
+      }
+    },
+    [cols, tiles],
+  );
+
   const clearAllScrews = useCallback(() => {
     setSummits((prev) =>
       prev.map((row) => row.map((s) => ({ ...s, screw: false }))),
@@ -257,6 +317,8 @@ export function useGridState(initialRows: number, initialCols: number) {
     enableAllChamfers,
     enableAllScrews,
     enableCornerScrews,
+    setGridRows,
+    setGridCols,
     clearAllConnectors,
     clearAllChamfers,
     clearAllScrews,

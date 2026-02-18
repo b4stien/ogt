@@ -37,22 +37,9 @@ export function GridEditor() {
   const state = useGridState(2, 2);
 
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-6">
-        <GridSvg
-          tiles={state.tiles}
-          summits={state.summits}
-          eligibility={state.eligibility}
-          onToggleTile={state.toggleTile}
-          onToggleConnector={state.toggleConnector}
-          onToggleChamfer={state.toggleChamfer}
-          onToggleScrew={state.toggleScrew}
-          onAddRow={state.addRow}
-          onRemoveRow={state.removeRow}
-          onAddColumn={state.addColumn}
-          onRemoveColumn={state.removeColumn}
-        />
-        <div className="flex flex-col gap-2 max-w-3xl">
+        <div className="flex gap-2">
           <div className="inline-flex w-fit h-8 rounded-md border shadow-xs overflow-hidden select-none">
             <button
               type="button"
@@ -77,6 +64,47 @@ export function GridEditor() {
               Lite
             </button>
           </div>
+          <div className="flex items-center rounded-md border bg-background shadow-xs">
+            <span className="flex-none px-3 h-8 flex items-center text-sm font-medium border-r bg-muted text-foreground/60 rounded-l-md">
+              Rows
+            </span>
+            <input
+              type="number"
+              min="1"
+              max="999"
+              value={state.rows}
+              onChange={(e) => state.setGridRows(parseInt(e.target.value) || 1)}
+              className="w-12 h-8 px-2 text-sm bg-transparent outline-none"
+            />
+          </div>
+          <div className="flex items-center rounded-md border bg-background shadow-xs">
+            <span className="flex-none px-3 h-8 flex items-center text-sm font-medium border-r bg-muted text-foreground/60 rounded-l-md">
+              Columns
+            </span>
+            <input
+              type="number"
+              min="1"
+              max="999"
+              value={state.cols}
+              onChange={(e) => state.setGridCols(parseInt(e.target.value) || 1)}
+              className="w-12 h-8 px-2 text-sm bg-transparent outline-none"
+            />
+          </div>
+        </div>
+        <GridSvg
+          tiles={state.tiles}
+          summits={state.summits}
+          eligibility={state.eligibility}
+          onToggleTile={state.toggleTile}
+          onToggleConnector={state.toggleConnector}
+          onToggleChamfer={state.toggleChamfer}
+          onToggleScrew={state.toggleScrew}
+          onAddRow={state.addRow}
+          onRemoveRow={state.removeRow}
+          onAddColumn={state.addColumn}
+          onRemoveColumn={state.removeColumn}
+        />
+        <div className="flex flex-col gap-2 max-w-3xl">
           <GridFeaturesToolbar
             onEnableAllConnectors={state.enableAllConnectors}
             onEnableAllChamfers={state.enableAllChamfers}
@@ -109,52 +137,50 @@ export function GridEditor() {
         </div>
       </div>
       <div className="max-w-3xl">
-        <div className="mt-10">
-          <JsonExport
-            rows={state.rows}
-            cols={state.cols}
-            opengridType={state.opengridType}
-            toGridPlan={state.toGridPlan}
-          />
-        </div>
-        <div className="mt-10 rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700 flex flex-col gap-2">
-          <p>
-            <strong>Beta:</strong> This generator is still in beta. Please
-            verify its output, inspect the generated STEP/STL file, and do a
-            small test print before committing to larger projects.
-          </p>
-          <p>
-            <strong>Grid preview:</strong> Green areas represent material that
-            will be printed. When a feature (connector, chamfer, screw hole) is
-            enabled, its spot turns light grey to indicate material will be
-            removed there. Click on a tile to toggle it on or off, and click on
-            a feature spot (connector, chamfer, screw hole) to toggle it
-            individually.
-          </p>
-        </div>
-        <footer className="mt-10 text-sm text-muted-foreground">
+        <JsonExport
+          rows={state.rows}
+          cols={state.cols}
+          opengridType={state.opengridType}
+          toGridPlan={state.toGridPlan}
+        />
+      </div>
+      <div className="max-w-3xl rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700 flex flex-col gap-2">
+        <p>
+          <strong>Beta:</strong> This generator is still in beta. Please verify
+          its output, inspect the generated STEP/STL file, and do a small test
+          print before committing to larger projects.
+        </p>
+        <p>
+          <strong>Grid preview:</strong> Green areas represent material that
+          will be printed. When a feature (connector, chamfer, screw hole) is
+          enabled, its spot turns light grey to indicate material will be
+          removed there. Click on a tile to toggle it on or off, and click on a
+          feature spot (connector, chamfer, screw hole) to toggle it
+          individually.
+        </p>
+      </div>
+      <footer className="max-w-3xl text-sm text-muted-foreground">
+        <a
+          href="https://github.com/b4stien/ogt"
+          className="hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ogt repository on GitHub
+        </a>
+        <span className="mx-2">&middot;</span>
+        <span>
+          &copy; {new Date().getFullYear()}{" "}
           <a
-            href="https://github.com/b4stien/ogt"
+            href="https://github.com/b4stien"
             className="hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            ogt repository on GitHub
+            Bastien GANDOUET
           </a>
-          <span className="mx-2">&middot;</span>
-          <span>
-            &copy; {new Date().getFullYear()}{" "}
-            <a
-              href="https://github.com/b4stien"
-              className="hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Bastien GANDOUET
-            </a>
-          </span>
-        </footer>
-      </div>
+        </span>
+      </footer>
     </div>
   );
 }

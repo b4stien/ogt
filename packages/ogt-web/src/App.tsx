@@ -14,9 +14,9 @@ function GitHubMark({ className }: { className?: string }) {
 
 function App() {
   return (
-    <div className="min-h-screen p-8 pl-18">
+    <div className="min-h-screen p-8 pl-18 flex flex-col gap-10">
       <div className="max-w-3xl">
-        <h1 className="text-2xl font-bold mb-6 flex items-center gap-3">
+        <h1 className="text-2xl font-bold flex items-center gap-3">
           openGrid Generator
           <a
             href="https://github.com/b4stien/ogt"
